@@ -38,7 +38,7 @@ namespace BookRentalApp.Controllers
         //GET ALL BOOKS,GENRES and RENTALS -- ViewModel
         #region GET ALL BOOKS,GENRES and RENTALS
         [HttpGet] // /api/books       
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAllBooks()
         {
             return await _book.GetAllBooks();
