@@ -10,6 +10,9 @@ namespace BookRentalApp.Repository
     public interface IBook
     {
 
+        //EXPENSIVEBOOK IN EACH CATEGORY
+        Task<List<ExpensiveBookViewModel>> GetAllExpensiveBooks();
+
         //GET ALL BOOKS,GENRE and RENTALS -- viewModel
         Task<List<BookViewModel>> GetAllBooks();
         Task<List<RentalViewModel>> GetAllRentals();

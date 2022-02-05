@@ -5,13 +5,10 @@ using System.Threading.Tasks;
 
 namespace BookRentalApp.ViewModel
 {
-    public class BookViewModel
+    public class ExpensiveBookViewModel
     {
         public string Genre { get; set; }
-        public int BId { get; set; }
-        public string BName { get; set; }
-        public string Author { get; set; }
+        public string BookName { get; set; }
         public int Price { get; set; }
-        public string Publication { get; set; }
     }
 }

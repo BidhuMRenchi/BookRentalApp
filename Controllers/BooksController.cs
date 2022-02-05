@@ -1,6 +1,7 @@
 ﻿using BookRentalApp.Models;
 using BookRentalApp.Repository;
 using BookRentalApp.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,15 +24,28 @@ namespace BookRentalApp.Controllers
             _book = book;
         }
 
+        //GET ALL EXPENSIVE BOOKS -- ViewModel
+        #region GET ALL EXPENSIVE BOOKS
+        [HttpGet] // /api/books
+        [Route("Expensive")]
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<ExpensiveBookViewModel>>> GetAllExpensiveBooks()
+        {
+            return await _book.GetAllExpensiveBooks();
+        }
+        #endregion
+
         //GET ALL BOOKS,GENRES and RENTALS -- ViewModel
         #region GET ALL BOOKS,GENRES and RENTALS
-        [HttpGet] // /api/books
+        [HttpGet] // /api/books       
+        //[Authorize]
         public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAllBooks()
         {
             return await _book.GetAllBooks();
         }
 
         [HttpGet] // /api/books/genres
+        [Authorize]
         [Route("Genres")]
         public async Task<ActionResult<IEnumerable<Genres>>> GetAllGenres()
         {
@@ -39,6 +53,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpGet] // /api/books/rentals
+        [Authorize]
         [Route("Rentals")]
         public async Task<ActionResult<IEnumerable<RentalViewModel>>> GetAllRentals()
         {
@@ -49,6 +64,7 @@ namespace BookRentalApp.Controllers
         //ADD BOOKS,GENRES and RENTALS
         #region ADD BOOKS,GENRES and RENTALS
         [HttpPost] // /api/books
+        [Authorize]
         public async Task<IActionResult> AddBook([FromBody] Books book)
         {
             //check validation of body
@@ -75,6 +91,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpPost] // /api/books/genre
+        [Authorize]
         [Route("Genre")]
         public async Task<IActionResult> AddGenre([FromBody] Genres genre)
         {
@@ -102,6 +119,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpGet] // /api/books/rental
+        [Authorize]
         [Route("Rental")]
         public async Task<IActionResult> AddRental([FromBody] Rentals rent)
         {
@@ -132,6 +150,7 @@ namespace BookRentalApp.Controllers
         //DELETE BOOKS and GENRES
         #region DELETE BOOKS and GENRES
         [HttpDelete("{id}")] // /api/books/{id}
+        [Authorize]
         public async Task<IActionResult> DeleteBook(int? id)
         {
             int result = 0;
@@ -155,6 +174,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpDelete("Genre/{id}")] // /api/books/genre/{id}
+        [Authorize]
         public async Task<IActionResult> DeleteGenre(int? id)
         {
             int result = 0;
@@ -182,6 +202,7 @@ namespace BookRentalApp.Controllers
         //UPDATE BOOKS,GENRES and RENTALS
         #region UPDATE BOOKS,GENRES and RENTALS
         [HttpPut]  // /api/books
+        [Authorize]
         public async Task<IActionResult> UpdateBook([FromBody] Books book)
         {
             //check validation of body
@@ -201,6 +222,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("Genre")]// /api/books/genre
         public async Task<IActionResult> UpdateGenre([FromBody] Genres genre)
         {
@@ -221,6 +243,7 @@ namespace BookRentalApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("Rental")]// /api/books/rental
         public async Task<IActionResult> UpdateRental([FromBody] Rentals rent)
         {
@@ -244,6 +267,7 @@ namespace BookRentalApp.Controllers
         //GET BOOKS by ID
         #region GET BOOKS by ID
         [HttpGet("book/{id}")] // /api/books/book/{id}
+        [Authorize]
         public async Task<ActionResult<Books>> GetBookId(int id)
         {
             try

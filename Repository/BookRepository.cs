@@ -17,6 +17,47 @@ namespace BookRentalApp.Repository
             _context = context;
         }
 
+        //EXPENSIVE BOOK IN EACH CATEGORY
+        #region EXPENSIVE BOOKS
+        public async Task<List<ExpensiveBookViewModel>> GetAllExpensiveBooks()
+        {
+            if (_context != null)
+            {
+                var obj = await (
+                    from g in _context.Genres
+                    join b in _context.Books
+                    on g.GenreId equals b.GenreId
+                    select new 
+                    {
+                        GenreId=g.GenreId,
+                        Genre = g.GName,
+                        BookName = b.BName,
+                        Price = b.Price
+                    }).ToListAsync();
+                var maxValue = 0;
+                var result = obj.GroupBy(x => x.GenreId);
+                List<ExpensiveBookViewModel> resultList = new List<ExpensiveBookViewModel>();
+                foreach (var i in result)
+                {
+                    ExpensiveBookViewModel view = new ExpensiveBookViewModel();
+                    foreach (var j in i)
+                    {
+                        if (j.Price > maxValue)
+                        {
+                            view.BookName = j.BookName;
+                            view.Price = j.Price;
+                            view.Genre = j.Genre;
+                            maxValue = j.Price;
+                        }
+                        
+                    }
+                    resultList.Add(view);
+                }return resultList;
+            }
+            return null ;
+        }
+        #endregion
+
         // ADD BOOK,GENRE and RENTALS
         #region ADD BOOK,GENRE and RENTALS
         public async Task<int> AddBook(Books book)
